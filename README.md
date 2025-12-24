@@ -2,6 +2,8 @@
 
 A custom Oh My Posh theme with a retro color scheme.
 
+![Alt text](images/how-it-looks.png)
+
 ## Features
 
 - Clean, minimal design with power icon indicator
