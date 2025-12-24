@@ -1,0 +1,122 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+
+  "final_space": true,
+
+  "palette": {
+    "_comment": "Core color palette (Night blue, orange resilience, neon purple focus)",
+    "bg": "#0B0A08",
+    "fg": "#D6DEEB",
+    "yellow": "#e3a010",
+    "orange": "#FF8C00",
+    "yellow2": "#FFB000",
+    "muted": "#7A5C2E",
+    "green": "#44FF99"
+  },
+
+  "blocks": [
+    {
+      "_comment": "LEFT PROMPT — main working area",
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+
+      "segments": [
+        {
+          "_comment": "Power icon",
+          "type": "text",
+          "template": " ",
+          "foreground": "p:orange",
+          "background": "transparent"
+        },
+        {
+          "_comment": "Current time",
+          "type": "time",
+          "foreground": "p:muted",
+          "background": "transparent",
+          "template": "[{{ date \"15:04\" (now) }}]",
+          "properties": {
+            "time_format": "15:04"
+          }
+        },
+        {
+          "_comment": "Username only (no hostname)",
+          "type": "session",
+          "foreground": "p:yellow",
+          "background": "transparent",
+          "template": "{{ .UserName }}",
+          "properties": {
+            "display_user": true,
+            "display_host": false,
+            "display_default": true
+          }
+        },
+        {
+          "_comment": "Separator between username and Location",
+          "type": "text",
+          "template": "@",
+          "foreground": "p:muted",
+          "background": "transparent"
+        },
+        {
+          "_comment": "Location",
+          "type": "path",
+          "foreground": "p:yellow2",
+          "background": "transparent",
+          "template": "{{ $parts := splitList \"\\\\\" .Path }}{{ $root := lower (index $parts 0) }}{{ $depth := sub (len $parts) 1 }}{{ if gt $depth 3 }}{{ $root }}\\...\\{{ lower (index $parts (sub (len $parts) 1)) }}{{ else }}{{ $root }}{{ range $i, $part := $parts }}{{ if and (gt $i 0) (le $i $depth) }}\\{{ lower $part }}{{ end }}{{ end }}{{ end }}",
+          "properties": {
+            "style": "agnoster_short",
+            "home_icon": "",
+            "folder_icon": "",
+            "max_depth": 3,
+            "enable_hyperlink": true
+          }
+        },
+        {
+          "_comment": "Separator between path and git",
+          "type": "text",
+          "template": "::",
+          "foreground": "p:muted",
+          "background": "transparent"
+        },
+        {
+          "_comment": "Git branch name wrapped in [ ]",
+          "type": "git",
+          "foreground": "p:green",
+          "background": "transparent",
+          "template": "[{{ .HEAD }}]",
+          "properties": {
+            "branch_icon": " ",
+            "fetch_status": false,
+            "fetch_upstream_icon": false,
+            "commit_icon": "@",
+            "status_colors_enabled": false,
+            "display_status": false,
+            "display_stash_count": false,
+            "display_upstream_icon": false
+          }
+        },
+        {
+          "_comment": "Display when command execution is slow",
+          "type": "executiontime",
+          "template": "✦ ",
+          "foreground": "p:orange",
+          "background": "transparent",
+          "properties": {
+            "threshold": 800
+          }
+        },
+        {
+          "_comment": "Final > symbol",
+          "type": "text",
+          "template": "{{ if gt .Code 0 }}✖{{ else }}❯{{ end }} ",
+          "foreground": "{{ if gt .Code 0 }}p:red{{ else }}p:fg{{ end }}",
+          "background": "transparent"
+        }
+      ]
+    }
+  ],
+
+  "console_title_template": "{{ .Shell }} — {{ .Folder }}"
+}
